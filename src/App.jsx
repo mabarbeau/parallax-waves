@@ -1,69 +1,30 @@
-import { useRef } from 'react';
-import moon from './moon.png';
-import land from './land.png';
-import cat from './cat.gif';
+import { Parallax, ParallaxLayer } from "@react-spring/parallax";
+import { useLayoutEffect, useRef } from "react";
+import { waves } from "./waves";
 
-import { Parallax, ParallaxLayer } from '@react-spring/parallax';
-
-function App() {
+const App = () => {
   const ref = useRef();
 
   return (
-    <div>
-      <Parallax pages={4} ref={ref}>
-        {/* <ParallaxLayer speed={1}>
-            <h2>Welcome to my website</h2>
-        </ParallaxLayer>
-
-        <ParallaxLayer offset={1} speed={0.5}>
-            <h2>Web development is fun!</h2>
-        </ParallaxLayer> */}
-
+    <Parallax pages={3} ref={ref}>
+      {waves.map((wave, index) => (
         <ParallaxLayer
-          offset={0}
-          speed={1}
-          factor={2}
-          style={{
-            backgroundImage: `url(${moon})`,
-            backgroundSize: 'cover',
-          }}
-        />
-
-        <ParallaxLayer
-          offset={2}
-          speed={1}
-          factor={4}
-          style={{
-            backgroundImage: `url(${land})`,
-            backgroundSize: 'cover',
-          }}
-        ></ParallaxLayer>
-
-        <ParallaxLayer
-          sticky={{ start: 0.9, end: 2.5 }}
-          style={{ textAlign: 'center' }}
+          key={index}
+          offset={0.25 + 0.02 * index}
+          speed={-0.6 - 0.03 * index}
         >
-          <img src={cat} />
+          <svg
+            viewBox="25 150 850 300"
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.1"
+          >
+            <path id="wave-1-from" d={wave.from} fill={wave.fill}></path>
+            <path id="wave-1-to" d={wave.to} fill={wave.fill}></path>
+          </svg>
         </ParallaxLayer>
-
-        <ParallaxLayer
-          offset={0.2}
-          speed={0.05}
-          onClick={() => ref.current.scrollTo(3)}
-        >
-          <h2>Welcome to my website</h2>
-        </ParallaxLayer>
-
-        <ParallaxLayer
-          offset={3}
-          speed={2}
-          onClick={() => ref.current.scrollTo(0)}
-        >
-          <h2>Hi Mom!</h2>
-        </ParallaxLayer>
-      </Parallax>
-    </div>
+      ))}
+    </Parallax>
   );
-}
+};
 
 export default App;
